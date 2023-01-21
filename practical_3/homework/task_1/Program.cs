@@ -47,9 +47,9 @@ if (n < 0)
 int count = FillArrayDigits(n, digits, size_digits);
 
 //Контрольная печать digits
-for (int i=0; i<count; i++){
-    System.Console.WriteLine($"digits[{i}] = {digits[i]}");
-}
+// for (int i=0; i<count; i++){
+//     System.Console.WriteLine($"digits[{i}] = {digits[i]}");
+// }
 
 // Для того, чтобы определить, является ли число палиндромом, сравниваем цифры с начала и конца числа:
 for (int i = 0; i < count / 2; i++)
