@@ -55,7 +55,7 @@ for (int i = 0; i < count / 2; i++)
 {
     if (digits[i] != digits[count - 1 - i])
     {
-        System.Console.WriteLine("Число {n} НЕ является палиндромом");
+        System.Console.WriteLine($"Число {n} НЕ является палиндромом");
         return;
     }
 }
