@@ -38,17 +38,17 @@ void SelectionSort(int[] arr)
 {
     for (int i = 0; i < arr.Length - 1; i++) 
     {
-        int minPosition = i;
+        int maxPosition = i;
 
         for (int j = i + 1; j < arr.Length; j++)
         {
-            if (arr[j] < arr[minPosition]) minPosition = j;
+            if (arr[j] < arr[maxPosition]) maxPosition = j;
         }
 
-        //меняем местами arr[i] и arr[minPosition]:
+        //меняем местами arr[i] и arr[maxPosition]:
         int tmp = arr[i];
-        arr[i] = arr[minPosition];
-        arr[minPosition] = tmp;
+        arr[i] = arr[maxPosition];
+        arr[maxPosition] = tmp;
     }
 }
 
@@ -61,17 +61,17 @@ void InvertSelectionSort(int[] arr)
 {
     for (int i = 0; i < arr.Length - 1; i++) 
     {
-        int minPosition = i;
+        int maxPosition = i;
 
         for (int j = i + 1; j < arr.Length; j++)
         {
-            if (arr[j] > arr[minPosition]) minPosition = j;
+            if (arr[j] > arr[maxPosition]) maxPosition = j;
         }
 
-        //меняем местами arr[i] и arr[minPosition]:
+        //меняем местами arr[i] и arr[maxPosition]:
         int tmp = arr[i];
-        arr[i] = arr[minPosition];
-        arr[minPosition] = tmp;
+        arr[i] = arr[maxPosition];
+        arr[maxPosition] = tmp;
     }
 }
 
