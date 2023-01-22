@@ -14,12 +14,12 @@ int PromptInt(string mess)
 //Эта функция принимает целое число n и заполняет массив digits его цифрами, от младшего разряда к старшему
 // например, для n=16 будет выполнено: digits[0]=6, digits[1]=1
 //Возвращаемое значение: количество цифр числа n 
-int FillArrayDigits(int n, int[] digits, int size_digits)
+int FillArrayDigits(int n, int[] digits)
 {
     int count = 0;
     while (n > 0)
     {
-        if (count == size_digits)
+        if (count == digits.Length)
         {
             System.Console.WriteLine("!!! Переполнение digits !!!");
             return count;
@@ -31,8 +31,7 @@ int FillArrayDigits(int n, int[] digits, int size_digits)
 }
 
 //using code:
-int size_digits = 20;  
-int[] digits = new int[size_digits];
+int[] digits = new int[20]; //в этом массиве будем хранить цифры вводимого числа
 
 int n = PromptInt("Введите целое число больше нуля");
 if (n <= 0)
@@ -43,7 +42,7 @@ if (n <= 0)
 
 //Заполняем массив digits цифрами числа n
 //count: количество заполненных цифр
-int count = FillArrayDigits(n, digits, size_digits);
+int count = FillArrayDigits(n, digits);
 
 //Контрольная печать digits
 // for (int i=0; i<count; i++){
