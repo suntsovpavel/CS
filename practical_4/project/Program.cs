@@ -10,6 +10,42 @@ double PromptDbl(string mess)
     return Convert.ToDouble(Console.ReadLine());
 }
 
+//Напишите программу, которая выводит первые заданные N элементов следующей последовательности:
+//1 2 2 3 3 3 4 4 4 4 5 5 5 5 5 6 ... (1 встречается один раз, 2: два раза, и т.д.)
+/*bool MyValidate(int n)
+{
+    bool res = (n > 0);
+    if (!res)
+    {
+        System.Console.WriteLine($"Число {n} меньше либо равно нулю");
+    }
+    return res;
+}*/
+
+void ShowNumbers(int n)
+{
+    int m = 1;  //Выводимые числа, исходное присвоение
+    int count = 0;
+    while (true)
+    {
+        for (int j = 0; j < m; j++)     //Каждое m должно быть выведено m раз
+        {
+            System.Console.Write($"{m} ");    
+            count++;
+            if(count == n) return;
+        }
+        m++;
+    }
+}
+
+int n = PromptInt("Введите целое число больше нуля");
+if(n < 0){
+    System.Console.WriteLine($"Число {n} меньше либо равно нулю");
+}else{
+    ShowNumbers(n);
+}
+
+
 /*
 // Задача 1: Напишите программу, которая принимает на вход число (А) и выдаёт сумму чисел от 1 до А.
 // 7 -> 28
@@ -95,7 +131,7 @@ Random random = new Random();
 for (int i = 0; i < array.Length; i++)
 {
     array[i] = random.Next(0, 2);
-}*/
+}
 int[] CreateArray(int size_array)
 {
     int[] array = new int[size_array];
@@ -117,3 +153,4 @@ void ShowArray(int[] array)
 
 //using code:
 ShowArray(CreateArray(PromptInt("Введите размер массива")));
+*/
