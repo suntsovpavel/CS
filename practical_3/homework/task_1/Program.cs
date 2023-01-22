@@ -17,7 +17,7 @@ int PromptInt(string mess)
 int FillArrayDigits(int n, int[] digits, int size_digits)
 {
     int count = 0;
-    while (n > 9)
+    while (n > 0)
     {
         if (count == size_digits)
         {
@@ -26,8 +26,7 @@ int FillArrayDigits(int n, int[] digits, int size_digits)
         }
         digits[count++] = (n % 10);
         n /= 10;
-    }
-    digits[count++] = (n % 10); // Заполняем последний разряд    
+    }   
     return count;
 }
 
@@ -35,10 +34,10 @@ int FillArrayDigits(int n, int[] digits, int size_digits)
 int size_digits = 20;  
 int[] digits = new int[size_digits];
 
-int n = PromptInt("Введите целое положительное число");
-if (n < 0)
+int n = PromptInt("Введите целое число больше нуля");
+if (n <= 0)
 {
-    System.Console.WriteLine($"Введено отрицательное число {n}");
+    System.Console.WriteLine($"Число {n} меньше либо равно 0");
     return;
 }
 
