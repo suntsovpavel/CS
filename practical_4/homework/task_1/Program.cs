@@ -13,9 +13,10 @@ int PromptInt(string mess)
 int MyExponent(int num, int exp)
 {
     int result = num;
-    while(exp > 1){
+    while (exp > 1)
+    {
         result *= num;
-        exp--;    
+        exp--;
     }
     return result;
 }
@@ -24,8 +25,11 @@ int MyExponent(int num, int exp)
 int n = PromptInt("Введите число (A)");
 int exponent = PromptInt("Введите показатель степени (B)");
 
-if(exponent < 1){
+if (exponent < 1)
+{
     System.Console.WriteLine($"Введен некорректный показатель степени {exponent}");
-}else{
+}
+else
+{
     System.Console.WriteLine($"{n} в степени {exponent} равно {MyExponent(n, exponent)}");
 }
