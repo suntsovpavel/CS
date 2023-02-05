@@ -223,7 +223,7 @@ for(int i=0; i < freqArr.Length; i ++)
 
 // Задача 4: Задайте двумерный массив из целых чисел. 
 //Напишите программу, которая удалит строку и столбец, на пересечении которых расположен наименьший элемент массива.
-
+/*
 (int index_i, int index_j) SearchMin(int[,] arr)
 {
     int min_i = 0, min_j = 0;
@@ -269,4 +269,32 @@ PrintMatrix(matrix);
 (int i_min, int j_min) = SearchMin(matrix);
 System.Console.WriteLine($"i_min = {i_min}, j_min = {j_min}");
 int[,] res = ModifyArray(matrix, i_min, j_min);
-PrintMatrix(res);
+PrintMatrix(res);*/
+
+//Задача 5: Вывести первые N строк треугольника Паскаля. Сделать вывод в виде равнобедренного треугольника
+
+int[] NewLineTrianglePascal(int[] arr)
+{
+    int[] result = new int[arr.Length + 1];
+    result[0] = 1;  //Первое и последнее значения: единички
+    result[result.Length - 1] = 1;
+    for (int i = 1; i < arr.Length; i++)
+    {
+        result[i] = arr[i - 1] + arr[i];
+    }
+    return result;
+}
+
+int num = PromptInt("Введите количество строк треугольника Паскаля");
+int[][] arr = new int[num][];
+arr[0] = new int[1];    //Первую строку формируем вручную, следующие - с помощью NewLineTrianglePascal
+arr[0][0] = 1;
+for (int i = 1; i < num; i++)
+{
+    arr[i] = NewLineTrianglePascal(arr[i - 1]);
+}
+
+for (int i = 0; i < num; i++)
+{
+    PrintArray(arr[i]); System.Console.WriteLine();
+}
