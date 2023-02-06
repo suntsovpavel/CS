@@ -12,18 +12,21 @@ double[,] CreateRandomMatrix(
     double minValue = 0,
     double maxValue = 10)
 {
-    double[,] result = new double[rows, columns]; 
+    double[,] result = new double[rows, columns];
+    double delta = maxValue - minValue;
     Random rnd = new Random();
-    for (int i=0; i<rows; i++){
-        for (int j=0; j<columns; j++){
-            result[i,j] = rnd.NextDouble();
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            result[i, j] = minValue + delta * rnd.NextDouble();
         }
     }
     return result;
 }
 
 void PrintMatrixDouble(
-    double[,] matr, 
+    double[,] matr,
     int numberRound = 5)    //количество цифр после запятой (округление)
 {
     for (int i = 0; i < matr.GetLength(0); i++)
@@ -39,11 +42,16 @@ void PrintMatrixDouble(
 //using code:
 int m = PromptInt("Введите количество строк массива");
 int n = PromptInt("Введите количество столбцов массива");
-if(m < 1){
+if (m < 1)
+{
     System.Console.WriteLine($"Некорректное количество строк: {m}");
-}else if(n < 1){
+}
+else if (n < 1)
+{
     System.Console.WriteLine($"Некорректное количество столбцов: {n}");
-}else{
+}
+else
+{
     double[,] matrix = CreateRandomMatrix(m, n);
     PrintMatrixDouble(matrix);
 }
