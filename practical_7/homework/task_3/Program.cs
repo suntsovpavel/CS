@@ -32,11 +32,13 @@ void PrintMatrix(int[,] matr)
     }
 }
 
-void PrintArray(double[] array)
+void PrintArray(
+    double[] array,
+    int numberRound = 5)    //количество цифр после запятой (округление))
 {
     foreach (double item in array)
     {
-        System.Console.Write($"{item}\t");
+        System.Console.Write($"{Math.Round(item, numberRound)}\t");
     }
     System.Console.WriteLine();
 }
