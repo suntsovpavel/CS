@@ -44,7 +44,7 @@ void PrintArray(
 }
 
 // Формируем массив, последовательно составленный из средних арифметических по столбцам матрицы 
-double[] GetAllAveragesColumn(int[,] matrix)
+double[] GetAveragesColumns(int[,] matrix)
 {
     double[] result = new double[matrix.GetLength(1)];
     for (int j = 0; j < matrix.GetLength(1); j++)
@@ -63,22 +63,15 @@ double[] GetAllAveragesColumn(int[,] matrix)
 //using code:
 int m = PromptInt("Введите количество строк массива");
 int n = PromptInt("Введите количество столбцов массива");
-if (m < 1)
-{
-    System.Console.WriteLine($"Некорректное количество строк: {m}");
-}
-else if (n < 1)
-{
-    System.Console.WriteLine($"Некорректное количество столбцов: {n}");
-}
-else
-{
-    int[,] matrix = CreateMatrix(m, n);
-    PrintMatrix(matrix);
+if (m < 1) { System.Console.WriteLine($"Некорректное количество строк: {m}"); return; }
+if (n < 1) { System.Console.WriteLine($"Некорректное количество столбцов: {n}"); return; }
 
-    //Формируем массив, составленный из средних арифметических по столбцам матрицы:
-    double[] averages = GetAllAveragesColumn(matrix);
-    System.Console.WriteLine("Значения средних арифметических по столбцам матрицы:");
-    PrintArray(averages);
-}
+int[,] matrix = CreateMatrix(m, n);
+PrintMatrix(matrix);
+
+//Формируем массив, составленный из средних арифметических по столбцам матрицы:
+double[] averages = GetAveragesColumns(matrix);
+System.Console.WriteLine("Значения средних арифметических по столбцам матрицы:");
+PrintArray(averages);
+
 

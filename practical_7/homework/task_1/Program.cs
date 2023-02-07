@@ -42,17 +42,9 @@ void PrintMatrixDouble(
 //using code:
 int m = PromptInt("Введите количество строк массива");
 int n = PromptInt("Введите количество столбцов массива");
-if (m < 1)
-{
-    System.Console.WriteLine($"Некорректное количество строк: {m}");
-}
-else if (n < 1)
-{
-    System.Console.WriteLine($"Некорректное количество столбцов: {n}");
-}
-else
-{
-    double[,] matrix = CreateRandomMatrix(m, n);
-    PrintMatrixDouble(matrix);
-}
+if (m < 1){ System.Console.WriteLine($"Некорректное количество строк: {m}"); return; }
+if (n < 1){ System.Console.WriteLine($"Некорректное количество столбцов: {n}"); return; }
+
+PrintMatrixDouble(CreateRandomMatrix(m, n));
+
 

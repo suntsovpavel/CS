@@ -1,23 +1,15 @@
 ﻿//Задача 2: Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, 
 // и возвращает значение этого элемента или же указание, что такого элемента нет.
 
-// возвращаем flag=true, если элемент с заданными индексами имеется
-(int value, bool flag) getElement(
-    int[,] arr,
-    int index_i,
-    int index_j)
+// возвращаем flag = true, если элемент с заданными индексами имеется, и flag = false, если не имеется         
+(int value, bool flag) getElement(int[,] arr, int indexRow, int indexCol)
 {
-    if (index_i < 0
-    || index_i >= arr.GetLength(0)
-    || index_j < 0
-    || index_j >= arr.GetLength(1))
-    {
-        return (0, false);
-    }
-    else
-    {
-        return (arr[index_i, index_j], true);
-    }
+    //Проверяем условие невыхода индексов за за пределы массива
+    bool flag = (indexRow >= 0 && indexRow < arr.GetLength(0) 
+    && indexCol >= 0 && indexCol < arr.GetLength(1));
+
+    int value = flag ? arr[indexRow, indexCol] : 0;     //если элемент не найден, уcловно врозвращаем value=0
+    return (value, flag);  
 }
 
 int PromptInt(string mess)
@@ -53,19 +45,18 @@ void PrintMatrix(int[,] matr)
 }
 
 //using code:
-//Пусть задан массив размером 4 на 5:
+int m = PromptInt("Введите количество строк массива");
+int n = PromptInt("Введите количество столбцов массива");
+if (m < 1){ System.Console.WriteLine($"Некорректное количество строк: {m}"); return; }
+if (n < 1){ System.Console.WriteLine($"Некорректное количество столбцов: {n}"); return; }
 int[,] matrix = CreateMatrix(4, 5);
 PrintMatrix(matrix);
 
-int index_i = PromptInt("Введите индекс строки в массиве");
-int index_j = PromptInt("Введите индекс столбца в массиве");
-
-(int value, bool flag) = getElement(matrix, index_i, index_j);
-if (flag)
-{
-    System.Console.WriteLine($"Элемент найден, array[{index_i}, {index_j}] = {matrix[index_i, index_j]}");
-}
-else
-{
-    System.Console.WriteLine($"Элемента с индексами [{index_i}, {index_j}] в массиве нет");
+int indexRow = PromptInt("Введите индекс строки в массиве");
+int indexCol = PromptInt("Введите индекс столбца в массиве");
+(int value, bool flag) = getElement(matrix, indexRow, indexCol);
+if (flag){
+    System.Console.WriteLine($"Элемент с индексами [{indexRow}, {indexCol}] имеется, значение: {matrix[indexRow, indexCol]}");
+}else{
+    System.Console.WriteLine($"Элемент с индексами [{indexRow}, {indexCol}] в массиве не найден");
 }
