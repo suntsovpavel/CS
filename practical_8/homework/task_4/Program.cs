@@ -1,5 +1,4 @@
 ﻿// Задача 4: * Напишите программу, которая заполнит спирально квадратный массив
-// Задача решена в общем случае прямоугольного массива
 
 int PromptInt(string mess)
 {
@@ -19,19 +18,8 @@ void PrintMatrix(int[,] matr)
     }
 }
 
-//возвращаем индексы следующего узла
-(int indexRowNext, int indexColNext) NextPosition(
-    int direction,  //направление движения: 0: вправо; 1: вниз; 2: влево; 3: вверх
-    int indexRow,   //индексы текущего узла
-    int indexCol)
-{
-    if (direction % 4 == 0) return (indexRow, indexCol + 1);  //движемся вправо
-    if (direction % 4 == 1) return (indexRow + 1, indexCol); //движемся вниз
-    if (direction % 4 == 2) return (indexRow, indexCol - 1);  //движемся влево
-    return (indexRow - 1, indexCol);  // движемся вверх
-}
-
-int[,] FillArray(int rows, int columns)
+// Создаем матрицу заданного размера и одновременно заполняем ее по спирали
+int[,] SpiralFillingArray(int rows, int columns)
 {
     //Создаем массив и выполняем исходную инициализацию нулями
     int[,] matrix = new int[rows, columns];
@@ -49,9 +37,9 @@ int[,] FillArray(int rows, int columns)
     int saveIndexRow = 0, saveIndexCol = 0; //сохранки индексов для возврата в предыдущее положение
 
     //Цикл по заполнению элементов по спирали
-    while (true)    //!!! выход через return !!!
+    while (true)    // выход через return, когда все элементы матрицы будут заполнены
     {
-        //Цикл движения в определенном направлении
+        // Цикл движения в направлении direction
         while (indexRow >= 0
         && indexRow < rows
         && indexCol >= 0
@@ -72,19 +60,23 @@ int[,] FillArray(int rows, int columns)
     }
 }
 
+//возвращаем индексы следующего элемента таблицы 
+// при движении в заданном направлении direction
+(int indexRowNext, int indexColNext) NextPosition(
+    int direction,  //направление движения: 0: вправо; 1: вниз; 2: влево; 3: вверх
+    int indexRow,   //индексы текущего узла
+    int indexCol)
+{
+    if (direction % 4 == 0) return (indexRow, indexCol + 1);  //движемся вправо
+    if (direction % 4 == 1) return (indexRow + 1, indexCol); //движемся вниз
+    if (direction % 4 == 2) return (indexRow, indexCol - 1);  //движемся влево
+    return (indexRow - 1, indexCol);  // движемся вверх
+}
+
 //using code:
 int m = PromptInt("Введите количество строк массива");
 int n = PromptInt("Введите количество столбцов массива");
-if (m < 1)
-{
-    System.Console.WriteLine($"Некорректное количество строк: {m}");
-}
-else if (n < 1)
-{
-    System.Console.WriteLine($"Некорректное количество столбцов: {n}");
-}
-else
-{
-    int[,] matrix = FillArray(m, n);
-    PrintMatrix(matrix);
-}
+if (m < 1){ System.Console.WriteLine($"Некорректное количество строк: {m}"); return; }
+if (n < 1){ System.Console.WriteLine($"Некорректное количество столбцов: {n}"); return; }
+
+PrintMatrix(SpiralFillingArray(m, n));

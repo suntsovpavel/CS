@@ -43,27 +43,18 @@ void PrintArray(
     System.Console.WriteLine();
 }
 
-// Для столбца матрицы, заданного индексом index_column, возвращаем среднее арифметическое значений
-// Проверку наличия столбца в матрице по индексу не выполняем, так как функция вызывается в цикле for (int i = 0; i < matrix.GetLength(1); i++)
-double AverageColumn(
-    int[,] matrix,
-    int index_column)
-{
-    double sum = 0;
-    for (int i = 0; i < matrix.GetLength(0); i++)
-    {
-        sum += matrix[i, index_column];
-    }
-    return sum / matrix.GetLength(0);
-}
-
 // Формируем массив, последовательно составленный из средних арифметических по столбцам матрицы 
 double[] GetAllAveragesColumn(int[,] matrix)
 {
     double[] result = new double[matrix.GetLength(1)];
-    for (int i = 0; i < matrix.GetLength(1); i++)
+    for (int j = 0; j < matrix.GetLength(1); j++)
     {
-        result[i] = AverageColumn(matrix, i);
+        double sum = 0;
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        {
+            sum += matrix[i, j];
+        }
+        result[j] = sum / matrix.GetLength(0);
     }
     return result;
 }
