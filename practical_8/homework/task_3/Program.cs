@@ -37,12 +37,11 @@ void PrintMatrix(int[,] matr)
 }
 
 int[,] ProductMatrix(int[,] matrixA, int[,] matrixB)
-{
-    int size = matrixA.GetLength(0);    //размер итоговой квадратной матрицы    
-    int[,] result = new int[size, size];
-    for (int i = 0; i < size; i++)
+{  
+    int[,] result = new int[matrixA.GetLength(0), matrixB.GetLength(1)];
+    for (int i = 0; i < matrixA.GetLength(0); i++)
     {
-        for (int j = 0; j < size; j++)
+        for (int j = 0; j < matrixB.GetLength(1); j++)
         {
             //Перемножаем строку матрицы А на столбец матрицы В
             result[i, j] = 0;
@@ -66,7 +65,7 @@ if (mB < 1) { System.Console.WriteLine($"Некорректное количес
 int nB = PromptInt("Введите количество столбцов матрицы B");
 if (nB < 1) { System.Console.WriteLine($"Некорректное количество столбцов матрицы B: {nB}"); return; }
 
-if (mA != nB) { System.Console.WriteLine($"Количество строк матрицы А ({mA}) не равно количеству столбцов матрицы B ({nB})"); return; }
+//число столбцов matrixA должно равняться числу строк matrixB
 if (nA != mB) { System.Console.WriteLine($"Количество строк матрицы B ({mB}) не равно количеству столбцов матрицы A ({nA})"); return; }
 int[,] matrixA = CreateMatrix(rows: mA, columns: nA);
 Console.WriteLine("Матрица А:");
