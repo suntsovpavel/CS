@@ -113,7 +113,7 @@ namespace CheckClosureContour
             return (value, next);
         }
 
-        struct Result
+        /*struct Result
         {
             public bool flag;
             public string msg;
@@ -126,7 +126,7 @@ namespace CheckClosureContour
                 contour = contour_;
                 countNodes = countNodes_;
             }
-        }
+        }*/
         // Считаем, что если замыкающее поле контура contour[countNodes-1] совпадает с пред-предпоследним contour[countNodes-3], 
         //  то в предпоследнем поле contour[countNodes-2] имеется разрыв
         static bool CheckCutContour(Cell[] contour, int countNodes)
@@ -134,7 +134,11 @@ namespace CheckClosureContour
             return (countNodes > 3 && contour[countNodes - 1] == contour[countNodes - 3]);
         }
 
-        static Result CheckClosureContour(
+        // Результаты:
+        // msg: сообщение об ошибке
+        // Cell[] contour: массив узлов контура
+        // countNodes: количество сохраненных узлов 
+        static (string msg, Cell[] contour, int countNodes) CheckClosureContour(
             int[,] pic,     //массив, задающий контур
             int indexRow, int indexCol)  //Координаты исходного поля (должно примыкать к контуру с наружной стороны)
         {
@@ -142,6 +146,7 @@ namespace CheckClosureContour
             baseCell.indexCol = indexCol;
             Cell[] contour = new Cell[1000];
             int countNodes = 0;
+            string msg = string.Empty;
 
             //В исходном поле обхода ищем направление, при котором элемент контура находится слева
             for (int i = 0; i < 4; i++)
@@ -156,83 +161,76 @@ namespace CheckClosureContour
             }
             if (countNodes == 0)
             {
-                return new Result(false, "неверно выбрано исходное поле обхода", contour, countNodes);
+                msg = "неверно выбрано исходное поле";
             }
-            bool flag = true;
-            string msg = string.Empty;
-
-            //Основной цикл обхода контура и заполнения списка полей
-            int countMoveAround = 0;    //счетчик поворотов влево и шагов вперед, сделанных подряд 
-            while (countNodes == 1 || contour[countNodes - 1] != contour[0])
+            else
             {
-                //Исходное состояние: замыкающее поле контура contour[countNodes-1] находится слева(с учетом direction) от поля обхода baseCell  
-                //ПРоверяем поле впереди
-                (int value, Cell newCell) = getValueAhead(pic);
-                if (value == -1)
+                //Основной цикл обхода контура и заполнения списка полей
+                int countMoveAround = 0;    //счетчик поворотов влево и шагов вперед, сделанных подряд 
+                while (countNodes == 1 || contour[countNodes - 1] != contour[0])
                 {
-                    flag = false;
-                    msg = "ошибка алгоритма, вызов getValueAhead в узле " + baseCell.PrintString();
-                    break;
-                }
-                else if (value == 1)
-                {   //Впереди обнаружено новое поле контура. Делаем поворот вправо. Тем самым переходим в исходное состояние следующей итерации
-                    contour[countNodes++] = newCell.Clone();
-                    if (CheckCutContour(contour, countNodes))
-                    {
-                        flag = false;
-                        msg = "обнаружен разрыв контура в узле " + contour[countNodes - 2].PrintString();
-                        break;
-                    }
-                    TurnRight();
-                    countMoveAround = 0;
-                }
-                else
-                {
-                    //Переносим поле обхода вперед и проверяем поле слева    
-                    if (!Step())
-                    {
-                        flag = false;
-                        msg = "ошибка алгоритма, шаг вперед в положение " + baseCell.PrintString() + ", direction: " + direction.ToString();
-                        break;
-                    }
-                    (value, newCell) = getValueLeft(pic);
+                    //Исходное состояние: замыкающее поле контура contour[countNodes-1] находится слева(с учетом direction) от поля обхода baseCell  
+                    //ПРоверяем поле впереди
+                    (int value, Cell newCell) = getValueAhead(pic);
                     if (value == -1)
                     {
-                        flag = false;
-                        msg = "ошибка алгоритма, вызов getValueLeft в узле " + baseCell.PrintString();
+                        msg = "ошибка алгоритма, вызов getValueAhead в узле " + baseCell.PrintString();
                         break;
                     }
                     else if (value == 1)
-                    {    //Слева обнаружено новое поле контура. Переходим к следующей итерации
+                    {   //Впереди обнаружено новое поле контура. Делаем поворот вправо. Тем самым переходим в исходное состояние следующей итерации
                         contour[countNodes++] = newCell.Clone();
                         if (CheckCutContour(contour, countNodes))
                         {
-                            flag = false;
                             msg = "обнаружен разрыв контура в узле " + contour[countNodes - 2].PrintString();
                             break;
                         }
+                        TurnRight();
                         countMoveAround = 0;
                     }
                     else
-                    {  //Делаем разворот влево и переносим поле обхода вперед. Тем самым переходим в исходное состояние следующей итерации
-                        TurnLeft();
+                    {
+                        //Переносим поле обхода вперед и проверяем поле слева    
                         if (!Step())
                         {
-                            flag = false;
                             msg = "ошибка алгоритма, шаг вперед в положение " + baseCell.PrintString() + ", direction: " + direction.ToString();
                             break;
                         }
-                        countMoveAround++;
-                        if (countMoveAround > 3)  //поворот влево и шаг вперед выполнен 4 раза подряд 
+                        (value, newCell) = getValueLeft(pic);
+                        if (value == -1)
                         {
-                            flag = false;
-                            msg = "обнаружена отдельно стоящая единица " + contour[countNodes - 1].PrintString();
+                            msg = "ошибка алгоритма, вызов getValueLeft в узле " + baseCell.PrintString();
                             break;
+                        }
+                        else if (value == 1)
+                        {    //Слева обнаружено новое поле контура. Переходим к следующей итерации
+                            contour[countNodes++] = newCell.Clone();
+                            if (CheckCutContour(contour, countNodes))
+                            {
+                                msg = "обнаружен разрыв контура в узле " + contour[countNodes - 2].PrintString();
+                                break;
+                            }
+                            countMoveAround = 0;
+                        }
+                        else
+                        {  //Делаем разворот влево и переносим поле обхода вперед. Тем самым переходим в исходное состояние следующей итерации
+                            TurnLeft();
+                            if (!Step())
+                            {
+                                msg = "ошибка алгоритма, шаг вперед в положение " + baseCell.PrintString() + ", direction: " + direction.ToString();
+                                break;
+                            }
+                            countMoveAround++;
+                            if (countMoveAround > 3)  //поворот влево и шаг вперед выполнен 4 раза подряд 
+                            {
+                                msg = "обнаружена отдельно стоящая единица " + contour[countNodes - 1].PrintString();
+                                break;
+                            }
                         }
                     }
                 }
             }
-            return new Result(flag, msg, contour, countNodes);
+            return (msg, contour, countNodes);
         }
 
         static void PrintContour(Cell[] contour, int countNodes)
@@ -247,16 +245,16 @@ namespace CheckClosureContour
 
         static void Starter(int[,] pic, int startIndexRow, int startIndexCol)
         {
-            Result result = CheckClosureContour(pic, startIndexRow, startIndexCol);
-            if (result.flag)
+            (string msg, Cell[] contour, int countNodes) = CheckClosureContour(pic, startIndexRow, startIndexCol);
+            if (msg == string.Empty)
             {
                 Console.WriteLine("Контур замкнут:");
-                PrintContour(result.contour, result.countNodes);
+                PrintContour(contour, countNodes);
             }
             else
             {
-                Console.WriteLine($"!!! {result.msg}");
-            }            
+                Console.WriteLine($"!!! {msg}");
+            }
         }
 
         static void Main(string[] args)
