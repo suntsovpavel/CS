@@ -27,6 +27,7 @@ class Program {
         }
 
         public void Print(){
+            if (data == null) return;
             for(int i=0; i<data.Length; i++){
                 Console.Write($"({data[i].x},{data[i].y})");    
                 if(i<data.Length-1) Console.Write(",");
